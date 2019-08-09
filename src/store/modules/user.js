@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-07-27 17:40:00
+ * @LastEditTime: 2019-08-09 17:25:52
+ * @LastEditors: Please set LastEditors
+ */
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
@@ -7,7 +14,8 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  permissions:[]
 }
 
 const mutations = {
@@ -25,6 +33,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_PERMISSIONS:(state, permissions) => {
+    state.permissions = permissions;
   }
 }
 

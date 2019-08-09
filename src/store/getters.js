@@ -1,25 +1,23 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import getters from './getters'
-
-Vue.use(Vuex)
-
-// https://webpack.js.org/guides/dependency-management/#requirecontext
-const modulesFiles = require.context('./modules', true, /\.js$/)
-
-// you do not need `import app from './modules/app'`
-// it will auto require all vuex module from modules file
-const modules = modulesFiles.keys().reduce((modules, modulePath) => {
-  // set './app.js' => 'app'
-  const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1')
-  const value = modulesFiles(modulePath)
-  modules[moduleName] = value.default
-  return modules
-}, {})
-
-const store = new Vuex.Store({
-  modules,
-  getters
-})
-
-export default store
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-07-27 17:13:15
+ * @LastEditTime: 2019-08-09 17:23:49
+ * @LastEditors: Please set LastEditors
+ */
+const getters = {
+  sidebar: state => state.app.sidebar,
+  size: state => state.app.size,
+  device: state => state.app.device,
+  visitedViews: state => state.tagsView.visitedViews,
+  cachedViews: state => state.tagsView.cachedViews,
+  token: state => state.user.token,
+  avatar: state => state.user.avatar,
+  name: state => state.user.name,
+  introduction: state => state.user.introduction,
+  roles: state => state.user.roles,
+  permissions: state => state.user.permissions,
+  errorLogs: state => state.errorLog.logs,
+  menus: state => state.menus.authedMenus
+}
+export default getters
