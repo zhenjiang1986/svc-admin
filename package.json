@@ -16,13 +16,16 @@
     "element-ui": "^2.11.0",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "path-to-regexp": "^3.0.0",
     "qs": "^6.7.0",
+    "screenfull": "^4.2.1",
     "uuid": "^3.3.2",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.7"
+    "vue-router": "^3.0.7",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
@@ -31,7 +34,8 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "sass-loader": "^7.1.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.2.0",
     "svg-sprite-loader": "^4.1.6",
     "vue-template-compiler": "^2.6.10"
   },
