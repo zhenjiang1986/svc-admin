@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-10 09:52:33
- * @LastEditTime: 2019-08-12 15:28:41
+ * @LastEditTime: 2019-08-13 18:07:39
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -20,7 +20,7 @@
       </div>
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user"/>
+          <svg-icon icon-class="user" />
         </span>
         <el-input
           ref="username"
@@ -32,14 +32,14 @@
           auto-complete="on"
         />
       </el-form-item>
-     
+
       <el-tooltip v-model="capsTooltip" content="大写锁定已打开" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
-            <svg-icon icon-class="password"/>
-          </span> 
+            <svg-icon icon-class="password" />
+          </span>
           <!-- https://cn.vuejs.org/v2/api/#key  key更信后元素会重新渲染 -->
-            <el-input
+          <el-input
             :key="passwordType"
             ref="password"
             v-model="userModel.password"
@@ -51,20 +51,23 @@
             @keyup.native="checkCapslock"
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
-            />
+          />
           <span class="show-pwd" @click="showPassword">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
       </el-tooltip>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%;margin-bottom:30px;"
+        @click.native.prevent="handleLogin"
+      >Login</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
-
-
 export default {
   name: "Login",
   data: function() {
@@ -81,7 +84,7 @@ export default {
       },
       passwordType: "password",
       capsTooltip: false,
-      loading:false
+      loading: false
     };
   },
   watch: {
@@ -96,65 +99,70 @@ export default {
       immediate: true
     }
   },
-  mounted(){
-      if(this.userModel.username ===''){
-          this.$refs.username.focu();
-      }
+  mounted() {
+    if (this.userModel.username === "") {
+      this.$refs.username.focu();
+    }
 
-      if(this.userModel.password ===''){
-          this.$refs.username.focu();
-      }
+    if (this.userModel.password === "") {
+      this.$refs.username.focu();
+    }
     /**https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列 */
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+    this.$nextTick(() => {
+      this.$refs.password.focus();
+    });
   },
   methods: {
-    checkCapslock({shiftKey,key} = {}) {
-        if (key && key.length === 1) {
-        if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
-          this.capsTooltip = true
+    checkCapslock({ shiftKey, key } = {}) {
+      if (key && key.length === 1) {
+        if (
+          (shiftKey && (key >= "a" && key <= "z")) ||
+          (!shiftKey && (key >= "A" && key <= "Z"))
+        ) {
+          this.capsTooltip = true;
         } else {
-          this.capsTooltip = false
+          this.capsTooltip = false;
         }
       }
-      if (key === 'CapsLock' && this.capsTooltip === true) {
-        this.capsTooltip = false
+      if (key === "CapsLock" && this.capsTooltip === true) {
+        this.capsTooltip = false;
       }
     },
-    showPassword(){
-        if(this.passwordType === 'password'){
-            this.passwordType = '';
-        }else{
-            this.passwordType = 'password'
-        }
+    showPassword() {
+      if (this.passwordType === "password") {
+        this.passwordType = "";
+      } else {
+        this.passwordType = "password";
+      }
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-
-
-
         if (valid) {
           this.loading = true;
 
-
-          this.$store.dispatch('user/login', {
-              username:this.userModel.username,
-              password:this.userModel.password})
+          this.$store
+            .dispatch("user/login", {
+              username: this.userModel.username,
+              password: this.userModel.password
+            })
             .then(() => {
-                console.log('OK');
-              //this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
+              console.log("OK");
+
+              //this.$store.dispatch("user/getInfo").then(this.$router.push({ path: this.redirect || '/', query: this.otherQuery }));
+
+              this.$store.dispatch("user/getInfo").then(console.log(" user info ok"));
+
+              this.loading = false;
             })
             .catch(() => {
-              this.loading = false
-            })
-        this.loading = false;
+              this.loading = false;
+            });
+          this.loading = false;
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     },
 
     getOtherQuery(query) {
@@ -171,79 +179,75 @@ export default {
 </script>
 
 <style lang="scss">
-
-
-$bgColor:#283443;
-$light-gray:#fff;
-$cursor:#fff;
+$bgColor: #283443;
+$light-gray: #fff;
+$cursor: #fff;
 /**  改变光标颜色  https://www.zhangxinxu.com/wordpress/2018/01/css-caret-color-first-line/ */
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-    .login-container .el-input input {
-        color: $cursor;
-    }
+  .login-container .el-input input {
+    color: $cursor;
+  }
 }
 /** https://blog.csdn.net/qq_41022291/article/details/82217015 */
 .login-container {
-
-    .el-input{
-        display: inline-block;
-        height: 47px;
-        width: 85%;
-        input {
-            background: transparent;
-            border: 0px;
-            -webkit-appearance: none;
-            border-radius: 0px;
-            padding: 12px 5px 12px 5px;
-            color: $light-gray;
-            height: 47px;
-            caret-color: $cursor;
-            /** https://blog.csdn.net/qq_41022291/article/details/82217015 */
-            &:-webkit-autofill {
-                box-shadow: 0 0 0px 1000px $bgColor inset !important;
-                -webkit-text-fill-color: $cursor !important;
-            }
-        }
+  .el-input {
+    display: inline-block;
+    height: 47px;
+    width: 85%;
+    input {
+      background: transparent;
+      border: 0px;
+      -webkit-appearance: none;
+      border-radius: 0px;
+      padding: 12px 5px 12px 5px;
+      color: $light-gray;
+      height: 47px;
+      caret-color: $cursor;
+      /** https://blog.csdn.net/qq_41022291/article/details/82217015 */
+      &:-webkit-autofill {
+        box-shadow: 0 0 0px 1000px $bgColor inset !important;
+        -webkit-text-fill-color: $cursor !important;
+      }
     }
+  }
 
-    .el-form-item {
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        color: #454545;
-    }
+  .el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
+  }
 }
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
-
-    min-height: 100%;
-    width: 100%;
-    background: $bg;
+  min-height: 100%;
+  width: 100%;
+  background: $bg;
+  overflow: hidden;
+  .login-form {
+    position: relative;
+    width: 520px;
+    max-width: 100%;
+    padding: 160px 35px 0;
+    margin: 0 auto;
     overflow: hidden;
-    .login-form{
-        position: relative;
-        width: 520px;
-        max-width: 100%;
-        padding: 160px 35px 0;
-        margin: 0 auto;
-        overflow: hidden;
-    }
+  }
 
-    .svg-container {
-        padding: 6px 5px 6px 15px;
-        color: $dark_gray;
-        vertical-align: middle;
-        width: 30px;
-        display: inline-block;
-    }
+  .svg-container {
+    padding: 6px 5px 6px 15px;
+    color: $dark_gray;
+    vertical-align: middle;
+    width: 30px;
+    display: inline-block;
+  }
 
-    .title-container {
+  .title-container {
     position: relative;
 
     .title {
@@ -265,12 +269,6 @@ $light_gray:#eee;
     user-select: none;
   }
 }
-
-
-
-
-
-
 </style>
 
 

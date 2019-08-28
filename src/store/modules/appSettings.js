@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-07-27 17:37:11
+ * @LastEditTime: 2019-08-13 17:13:16
+ * @LastEditors: Please set LastEditors
+ */
 import variables from '@/styles/element-variables.scss'
 import defaultSettings from '@/settings'
 
