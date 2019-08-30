@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-22 10:22:20
- * @LastEditTime: 2019-08-22 11:07:53
- * @LastEditors: Please set LastEditors
- -->
 <template>
     <div  class="menu-wrapper">
         <template v-if="hasOnlyItem">

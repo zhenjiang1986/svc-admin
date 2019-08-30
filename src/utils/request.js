@@ -1,10 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-07-27 16:01:10
- * @LastEditTime: 2019-08-12 15:03:34
- * @LastEditors: Please set LastEditors
- */
 import axios from "axios";
 import { MessageBox, Message } from "element-ui";
 import store from "@/store";
@@ -33,6 +26,8 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   response => {
+    Log.DEBUG(response)
+    //TODO:根据response的statusCode 来跳转页面
     const data = response.data;
 
     return data;

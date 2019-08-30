@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-21 16:13:24
- * @LastEditTime: 2019-08-22 09:07:39
- * @LastEditors: Please set LastEditors
- -->
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">

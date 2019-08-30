@@ -44,7 +44,7 @@ export default {
       return "";
     },
     showLogo() {
-      return this.$store.state.appSettings.sidebarLogo;
+      return this.$store.state.settings.sidebarLogo;
     },
     variables() {
       return variables;

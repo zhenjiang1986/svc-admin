@@ -1,14 +1,7 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-07-27 17:40:00
- * @LastEditTime: 2019-08-19 17:32:37
- * @LastEditors: Please set LastEditors
- */
 import axios from "axios";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 import request from "@/utils/request";
-import {isAuth} from '@/guard'
+import defaultMenus from '@/staticMenus'
 
 const state = {
   token: getToken(),
@@ -79,7 +72,7 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({ commit, state,dispatch }) {
     return new Promise((resolve, reject) => {
 
         axios.all([request.get("/connect/userinfo"),request.get("/api/abp/application-configuration")])
@@ -119,60 +112,40 @@ const actions = {
             if(config.setting && config.setting.values){
                 commit("SET_SETTINGS", objToStrMap(config.setting.values));
             }
+            //设置默认菜单
+            dispatch('menu/setMenus',defaultMenus)
             resolve();
         }));
   });
 
   
-  }
+  },
   //user logout
-    // logout({ commit, state }) {
-    //   return new Promise((resolve, reject) => {
-    //     logout(state.token).then(() => {
-    //       commit('SET_TOKEN', '')
-    //       commit('SET_ROLES', [])
-    //       removeToken()
-    //       resolve()
-    //     }).catch(error => {
-    //       reject(error)
-    //     })
-    //   })
-    // },
+  //由于我们使用的是Token过期的机制,所以这边直接把Token清掉就行了
+    logout({ dispatch }) {
+      return new Promise((resolve, reject) => {
+        
+        dispatch('resetToken')
+        resolve()
+
+      })
+    },
 
   // remove token
-  //   resetToken({ commit }) {
-  //     return new Promise(resolve => {
-  //       commit('SET_TOKEN', '')
-  //       commit('SET_ROLES', [])
-  //       removeToken()
-  //       resolve()
-  //     })
-  //   },
-
-  // dynamically modify permissions
-  //   changeRoles({ commit, dispatch }, role) {
-  //     return new Promise(async resolve => {
-  //       const token = role + '-token'
-
-  //       commit('SET_TOKEN', token)
-  //       setToken(token)
-
-  //       const { roles } = await dispatch('getInfo')
-
-  //       resetRouter()
-
-  //       // generate accessible routes map based on roles
-  //       const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
-
-  //       // dynamically add accessible routes
-  //       router.addRoutes(accessRoutes)
-
-  //       // reset visited views and cached views
-  //       dispatch('tagsView/delAllViews', null, { root: true })
-
-  //       resolve()
-  //     })
-  //   }
+    resetToken({ commit }) {
+      return new Promise(resolve => {
+        commit('SET_TOKEN', '')
+        removeToken()
+        commit('SET_ID', '')
+        commit('SET_NAME', '')
+        commit('SET_PREFERRED_USERNAME', '')
+        commit('SET_AVATAR', '')
+        commit('SET_ROLES', [])
+        commit('SET_PERMISSIONS', [])
+        commit('SET_SETTINGS', new Map())
+        resolve()
+      })
+    },
 };
 
 export default {

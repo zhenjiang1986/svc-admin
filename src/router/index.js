@@ -1,11 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-03 09:10:31
- * @LastEditTime: 2019-08-10 09:17:15
- * @LastEditors: Please set LastEditors
- */
-
 import Vue from 'vue'
 import Router from 'vue-router'
 

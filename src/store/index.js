@@ -1,10 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-07-27 17:12:59
- * @LastEditTime: 2019-08-12 14:59:53
- * @LastEditors: Please set LastEditors
- */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'

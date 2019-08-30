@@ -1,10 +1,3 @@
-<!--
- * @Description: 页面顶部可关闭Tag
- * @Author: tong zhen jiang
- * @Date: 2019-08-14 11:33:55
- * @LastEditTime: 2019-08-21 16:04:00
- * @LastEditors: Please set LastEditors
- -->
 <template>
   <div id="tags-view-container" class="tags-view-container">
     <scroll-pane ref="scrollPane" class="tags-view-wrapper">
@@ -79,19 +72,20 @@ export default {
     isActive(tag) {
       return tag.path === this.$route.path;
     },
-    filterAffixTags(menus, basePath = "/") {
+    filterAffixTags(menus) {
       let tags = [];
 
       for (let menu in menus) {
-        if (menu.url && isExternal(menu.url)) {
+        if (menu.fullPath && isExternal(menu.fullPath)) {
           continue;
         }
 
         if (menu.customData && menu.customData.affix) {
-          let route = this.$router.match(menu.fullPath);
 
-          if (route) {
-            var tag = this.convertRouteToTag(route);
+          let result = router.resolve(menu.fullPath);
+
+          if (result.matched.length > 0) {
+            var tag = this.convertRouteToTag(result.route,true);
 
             if (tag) {
               tags.push(tag);
@@ -103,7 +97,7 @@ export default {
 
         if (menu.items && menu.items.length > 0) {
           //如果有子菜单
-          var subTags = this.filterAffixTags(menu.items, menu.fullPath);
+          var subTags = this.filterAffixTags(menu.items);
           subTags.forEach(s => {
             tags.push(s);
           });
@@ -129,7 +123,7 @@ export default {
         this.$store.dispatch("tagsView/addView", tag);
       }
     },
-    convertRouteToTag(route) {
+    convertRouteToTag(route,affix =false) {
       if (route.meta && route.meta.noTag) {
         return;
       }
@@ -138,12 +132,12 @@ export default {
         return;
       }
 
-      let title = "请命名标签";
+      let title = "未命名标签";
       //菜单名称优先级高
       let curMenu = this.$store.getters.menu.getByFullPath(route.fullPath);
 
       if (curMenu) {
-        title = curMenu.dipalyName || menu.name;
+        title = curMenu.title;
       } else {
         if (route.meta && route.meta.title) {
           title = route.meta.title;
@@ -152,6 +146,7 @@ export default {
 
       return {
         title,
+        affix,
         path: route.path,
         fullPath: route.fullPath,
         name: route.name,
@@ -181,7 +176,7 @@ export default {
     refreshSelectedTag(view) {
       this.$store.dispatch("tagsView/delCachedView", view).then(() => {
         const { fullPath } = view;
-        this.$$nextTick(() => {
+        this.$nextTick(() => {
           this.$router.replace({
             path: "/redirect" + fullPath
           });

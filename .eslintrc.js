@@ -1,10 +1,3 @@
-/*
- * @Description: 配置EsLint
- * @Author: tongzh
- * @Date: 2019-08-09 17:17:51
- * @LastEditTime: 2019-08-09 17:18:43
- * @LastEditors: Please set LastEditors
- */
 module.exports = {
   root: true,
   env: {

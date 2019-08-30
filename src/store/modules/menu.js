@@ -1,59 +1,4 @@
-/*
- * @Description: menu store
- * @Author: tongzj
- * @Date: 2019-08-03 09:09:04
- * @LastEditTime: 2019-08-19 11:18:14
- * @LastEditors: Please set LastEditors
- */
 
-const initMenus = [
-  {
-    name: "Dashboard",
-    displayName: "Dashboard",
-    icon: "",
-    url: "/dashboard",
-    affix: true,
-    customData: {
-      guard: {
-        roles: [],
-        permissions: [],
-        mode: "allOf"
-      }
-    }
-  },
-  {
-    name: "Documentation",
-    icon: "",
-    url: "/documenttation"
-  },
-  {
-    name: "Guild",
-    icon: "",
-    url: "/guild"
-  },
-  {
-    name: "Permission",
-    icon: "",
-    url: "/permission",
-    items: [
-      {
-        name: "Directive Permission",
-        icon: "",
-        url: "/permission/directive"
-      }
-    ]
-  },
-  {
-    name: "Icons",
-    icon: "",
-    url: "/icons"
-  },
-  {
-    name: "External url",
-    icon: "",
-    url: "https://www.hao123.com"
-  }
-];
 
 import path from "path";
 import { isExternal } from "@/utils/validate";
@@ -92,13 +37,19 @@ const mutations = {
  * @param {string} [basePath="/"]
  * @returns
  */
-function getAuthMenus(menus, roles, permissions, basePath = "/") {
+function getAuthMenus(menus, roles, permissions,parentMenu = null, basePath = "/") {
   let authMenus = [];
 
   menus.forEach(menu => {
     if (isMenuAuth(menu, roles, permissions)) {
-      //TODO:验证一下
+   
       let authMenu = { ...menu };
+
+      authMenu.title = menu.displayName || menu.name
+
+      if(parentMenu){
+          authMenu.parentName = parentMenu.name
+      }
 
       delete authMenu.items;
 
@@ -115,6 +66,7 @@ function getAuthMenus(menus, roles, permissions, basePath = "/") {
           menu.items,
           roles,
           permissions,
+          authMenu,
           authMenu.fullPath || basePath
         );
 
@@ -212,6 +164,34 @@ const getters = {
         menu.fullPath && menu.fullPath.toUpperCase == fullPath.toUpperCase()
       );
     });
+  },
+  getBreadcrumbMenus: (state,getters) => fullPath => {
+
+    var curMenu = getters.getByFullPath(fullPath)
+
+    if(!curMenu){
+        return null
+    }
+
+    let breadcrumb = [curMenu]
+
+
+    var deep = 0
+
+    while(curMenu.parentName){
+
+        var parentMenu = getters.getByName(curMenu.parentName)
+
+        breadcrumb.push(parentMenu)
+
+        curMenu = parentMenu
+
+        if(++deep > 10){
+            throw new Error('when find menu breadcrumb, the deep is bigger than 10')
+        }
+    }
+
+    return breadcrumb.reverse()
   }
 };
 

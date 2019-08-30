@@ -1,10 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-07-27 17:14:18
- * @LastEditTime: 2019-08-22 11:19:38
- * @LastEditors: Please set LastEditors
- */
 import Cookies from 'js-cookie'
 
 const state = {

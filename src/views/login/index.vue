@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-10 09:52:33
- * @LastEditTime: 2019-08-13 18:07:39
- * @LastEditors: Please set LastEditors
- -->
 <template>
   <div class="login-container">
     <el-form

@@ -1,10 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-22 11:13:46
- * @LastEditTime: 2019-08-22 11:19:01
- * @LastEditors: Please set LastEditors
- */
 import store from '@/store'
 
 const { body } = document

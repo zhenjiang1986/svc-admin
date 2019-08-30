@@ -1,9 +1,8 @@
+import {Log} from './log'
 export class UrlHelper {
 
     static addQueryParam(url,name,value){
 
-
-        Log.
         if(url.indexOf('?') <0 ){
             url+= '?';
         }

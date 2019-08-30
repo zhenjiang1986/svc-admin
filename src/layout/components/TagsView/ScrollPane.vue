@@ -1,10 +1,3 @@
-<!--
- * @Description: the scroll container for tag views
- * @Author: tong zhen jiang
- * @Date: 2019-08-14 09:20:00
- * @LastEditTime: 2019-08-14 11:33:44
- * @LastEditors: Please set LastEditors
- -->
 <template>
     <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" @wheel.native.prevent="handleScroll"> 
         <slot />

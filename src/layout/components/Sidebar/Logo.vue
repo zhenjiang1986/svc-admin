@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-22 09:21:21
- * @LastEditTime: 2019-08-22 10:00:01
- * @LastEditors: Please set LastEditors
- -->
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
@@ -19,10 +12,6 @@
     </transition>
   </div>
 </template>
-
-
-
-
 <script>
 export default {
   name: "SidebarLogo",

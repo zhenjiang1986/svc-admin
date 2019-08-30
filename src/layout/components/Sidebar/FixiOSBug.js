@@ -1,10 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-22 10:47:51
- * @LastEditTime: 2019-08-22 10:52:24
- * @LastEditors: Please set LastEditors
- */
 export default {
   computed: {
     device() {

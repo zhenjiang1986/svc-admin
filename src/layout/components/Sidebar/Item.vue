@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-22 10:11:15
- * @LastEditTime: 2019-08-22 10:21:37
- * @LastEditors: Please set LastEditors
- -->
 <script>
 export default {
   name: "MenuItem",

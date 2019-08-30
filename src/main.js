@@ -1,10 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-07-26 14:10:54
- * @LastEditTime: 2019-08-12 14:49:24
- * @LastEditors: Please set LastEditors
- */
 import Vue from 'vue'
 import App from './App.vue'
 import Cookies from 'js-cookie'

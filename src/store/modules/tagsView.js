@@ -1,10 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-07-27 17:40:24
- * @LastEditTime: 2019-08-12 14:50:53
- * @LastEditors: Please set LastEditors
- */
 const state = {
     visitedViews: [],
     cachedViews: []
@@ -15,7 +8,7 @@ const state = {
       if (state.visitedViews.some(v => v.path === view.path)) return
       state.visitedViews.push(
         Object.assign({}, view, {
-          title: view.meta.title || 'no-name'
+          title: view.title || 'no-name'
         })
       )
     },
@@ -46,7 +39,7 @@ const state = {
   
     DEL_OTHERS_VISITED_VIEWS: (state, view) => {
       state.visitedViews = state.visitedViews.filter(v => {
-        return v.meta.affix || v.path === view.path
+        return v.affix || v.path === view.path
       })
     },
     DEL_OTHERS_CACHED_VIEWS: (state, view) => {
@@ -61,7 +54,7 @@ const state = {
   
     DEL_ALL_VISITED_VIEWS: state => {
       // keep affix tags
-      const affixTags = state.visitedViews.filter(tag => tag.meta.affix)
+      const affixTags = state.visitedViews.filter(tag => tag.affix)
       state.visitedViews = affixTags
     },
     DEL_ALL_CACHED_VIEWS: state => {
@@ -136,10 +129,10 @@ const state = {
       })
     },
   
-    delAllViews({ dispatch, state }, view) {
+    delAllViews({ dispatch, state }) {
       return new Promise(resolve => {
-        dispatch('delAllVisitedViews', view)
-        dispatch('delAllCachedViews', view)
+        dispatch('delAllVisitedViews')
+        dispatch('delAllCachedViews')
         resolve({
           visitedViews: [...state.visitedViews],
           cachedViews: [...state.cachedViews]

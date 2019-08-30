@@ -1,10 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-07-27 17:13:15
- * @LastEditTime: 2019-08-13 17:12:02
- * @LastEditors: Please set LastEditors
- */
 const getters = {
   sidebar: state => state.app.sidebar,
   size: state => state.app.size,

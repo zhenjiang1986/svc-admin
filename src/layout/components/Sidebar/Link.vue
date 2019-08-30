@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-22 10:04:09
- * @LastEditTime: 2019-08-22 10:08:21
- * @LastEditors: Please set LastEditors
- -->
 <template>
   <component v-bind="linkProps(to)">
     <slot />
