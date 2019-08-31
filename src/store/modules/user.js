@@ -1,7 +1,9 @@
+import store from '@/store'
 import axios from "axios";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 import request from "@/utils/request";
-import defaultMenus from '@/staticMenus'
+import defaultMenus from '@/defaultMenus'
+import { Log } from '@/utils/log';
 
 const state = {
   token: getToken(),
@@ -43,7 +45,7 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  login({ commit,dispatch }, userInfo) {
     const { username, password } = userInfo;
     return new Promise((resolve, reject) => {
       let data = new FormData();
@@ -55,12 +57,13 @@ const actions = {
       data.append("client_secret", "1q2w3e*");
       data.append("scope", "email openid profile role phone address Decision");
 
+      dispatch('resetToken')
+
       request
         .post("/connect/token", data, {
           headers: { "Content-Type": "application/x-www-form-urlencoded" }
         })
         .then(response => {
-          console.log(response);
           commit("SET_TOKEN", response.access_token);
           setToken(response.access_token);
           resolve();
@@ -72,7 +75,7 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state,dispatch }) {
+  getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
 
         axios.all([request.get("/connect/userinfo"),request.get("/api/abp/application-configuration")])
@@ -113,7 +116,10 @@ const actions = {
                 commit("SET_SETTINGS", objToStrMap(config.setting.values));
             }
             //设置默认菜单
-            dispatch('menu/setMenus',defaultMenus)
+            store.dispatch('menu/setMenus',defaultMenus).then(()=>{
+                Log.info(store.getters.menus)
+            })
+
             resolve();
         }));
   });

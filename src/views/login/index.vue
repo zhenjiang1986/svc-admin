@@ -61,6 +61,9 @@
 </template>
 
 <script>
+
+import {Log} from '@/utils/log'
+
 export default {
   name: "Login",
   data: function() {
@@ -139,9 +142,6 @@ export default {
               password: this.userModel.password
             })
             .then(() => {
-              console.log("OK");
-
-              //this.$store.dispatch("user/getInfo").then(this.$router.push({ path: this.redirect || '/', query: this.otherQuery }));
 
               this.$store.dispatch("user/getInfo").then(console.log(" user info ok"));
 

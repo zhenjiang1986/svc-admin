@@ -14,8 +14,20 @@ const whiteList = ["/login", "/auth-redirect"];
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
 
+  let title = null;
+
+  var menu = store.dispatch("menu/getByFullPath", to.fullPath);
+
+  if (menu) {
+    title = menu.title;
+  } else {
+    if (to.meta && to.meta.title) {
+      title = to.meta.title;
+    }
+  }
+
   //TODO:添加菜单优先级
-  document.title = getPageTitle(to.meta.title);
+  document.title = getPageTitle(title);
 
   const hasToken = getToken();
 

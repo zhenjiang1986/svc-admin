@@ -1,9 +1,10 @@
 
-
+import store from '@/store'
 import path from "path";
 import { isExternal } from "@/utils/validate";
 import { isAuth } from "@/guard";
 import router from "@/router";
+import {Log} from '@/utils/log'
 
 // 使用 `mode: 'allOf'` 表示必须同时拥有。
 
@@ -82,10 +83,12 @@ function getAuthMenus(menus, roles, permissions,parentMenu = null, basePath = "/
         if (authMenu.fullPath && !isExternal(authMenu.fullPath)) {
           let result = router.resolve(authMenu.fullPath);
 
-          if (result.matched.length > 0) {
+          var matched = result.resolved.matched
+          
+          if (matched.length > 0) {
             let allAuth = true;
-            for (let i = 0; i < result.matched.length; i++) {
-              var route = result.matched[i];
+            for (let i = 0; i < matched.length; i++) {
+              var route = matched[i];
 
               if (route.meta && route.meta.guard) {
                 if (!isAuth(route.meta.guard, roles, permissions)) {
@@ -117,15 +120,11 @@ function isMenuAuth(menu, roles, permissions) {
 }
 
 const actions = {
-  setMenus({ commit, rootState }, menus) {
+  setMenus({ commit }, menus) {
     commit("SET_MENUS", menus);
 
-    let roles = rootState.getters.roles;
-    let permissions = rootState.getters.permissions;
-    console.log("角色");
-    console.log(roles);
-    console.log("权限");
-    console.log(permissions);
+    let roles = store.getters.roles;
+    let permissions = store.getters.permissions.keys;
 
     let authMenus = getAuthMenus(menus, roles, permissions);
 

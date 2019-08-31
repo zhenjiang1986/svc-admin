@@ -26,8 +26,8 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   response => {
-    Log.DEBUG(response)
-    //TODO:根据response的statusCode 来跳转页面
+    //Log.info(response)
+    //TODO:根据response的status和statusText 来跳转页面
     const data = response.data;
 
     return data;
