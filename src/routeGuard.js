@@ -1,5 +1,5 @@
-import router from "./router";
-import store from "./store";
+import router from "@/router";
+import store from "@/store";
 import { Message } from "element-ui";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css"; // progress bar style
@@ -14,21 +14,6 @@ const whiteList = ["/login", "/auth-redirect"];
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
 
-  let title = null;
-
-  var menu = store.dispatch("menu/getByFullPath", to.fullPath);
-
-  if (menu) {
-    title = menu.title;
-  } else {
-    if (to.meta && to.meta.title) {
-      title = to.meta.title;
-    }
-  }
-
-  //TODO:添加菜单优先级
-  document.title = getPageTitle(title);
-
   const hasToken = getToken();
 
   if (hasToken) {
@@ -42,6 +27,20 @@ router.beforeEach(async (to, from, next) => {
       if (!hasRoles) {
         await store.dispatch("user/getInfo");
       }
+      let title = null;
+
+      let menu = store.getters["menu/getByFullPath"](to.fullPath);
+
+      if (menu) {
+        title = menu.title;
+      } else {
+        if (to.meta && to.meta.title) {
+          title = to.meta.title;
+        }
+      }
+
+      //TODO:添加菜单优先级
+      document.title = getPageTitle(title);
 
       if (to.meta && to.meta.guard) {
         let roles = store.getters.roles || [];

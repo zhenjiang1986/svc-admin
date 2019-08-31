@@ -116,9 +116,7 @@ const actions = {
                 commit("SET_SETTINGS", objToStrMap(config.setting.values));
             }
             //设置默认菜单
-            store.dispatch('menu/setMenus',defaultMenus).then(()=>{
-                Log.info(store.getters.menus)
-            })
+            store.dispatch('menu/setMenus',defaultMenus)
 
             resolve();
         }));

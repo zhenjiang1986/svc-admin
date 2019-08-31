@@ -12,7 +12,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <sidebar-item v-for="menu in menus" :key="menu.name" :item="menu" />
+        <sidebar-item v-for="menu in menus" :key="menu.name" :menu="menu" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -35,7 +35,7 @@ export default {
         return meta.activeMenu;
       }
 
-      let curMenu = this.$store.getters.menu.getByFullPath(fullPath);
+      let curMenu = this.$store.getters["menu/getByFullPath"](fullPath);
 
       if (curMenu) {
         return curMenu.name;

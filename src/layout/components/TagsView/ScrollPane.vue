@@ -45,7 +45,7 @@ export default {
                  $scrollWrapper.scrollLeft = 0
             }else if (lastTag === currentTag){
                 $scrollWrapper.scrollLeft = $scrollWrapper.scrollWidth - $containerWidth
-            }eles{
+            }else{
 
                 const currentIndex = tagList.find(item => item === currentTag)
                 const prevTag = tagList[currentIndex - 1]

@@ -34,7 +34,9 @@ export default {
 
         let route = this.$route
 
-        let menu = this.$store.getters.menu.getBreadcrumbMenus(route.fullPath)
+        let menu = this.$store.getters["menu/getBreadcrumbMenus"](route.fullPath)
+
+        console.log(menu)
 
         if(menu){
             this.levelList =menu
@@ -66,3 +68,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.app-breadcrumb.el-breadcrumb {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 50px;
+  margin-left: 8px;
+
+  .no-redirect {
+    color: #97a8be;
+    cursor: text;
+  }
+}
+</style>

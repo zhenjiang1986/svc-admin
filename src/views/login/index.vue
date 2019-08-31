@@ -143,7 +143,9 @@ export default {
             })
             .then(() => {
 
-              this.$store.dispatch("user/getInfo").then(console.log(" user info ok"));
+              this.$store.dispatch("user/getInfo").then(()=>{
+                  this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              });
 
               this.loading = false;
             })

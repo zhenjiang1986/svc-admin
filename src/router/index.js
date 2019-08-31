@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Layout from '@/layout'
 
 Vue.use(Router)
 
@@ -7,15 +8,25 @@ Vue.use(Router)
 
 export const constantroutes = [
     {
-       path: '/',
+       path: '/login',
        component: () => import('@/views/login/index'),
        hidden: true
      },
+     {
+        path: '/',
+        component: Layout,
+        redirect: '/dashboard',
+        children: [
+          {
+            path: 'dashboard',
+            component: () => import('@/views/dashboard/index'),
+            name: 'Dashboard',
+            meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+          }
+        ]
+      }
   ];
-  
-  export const asyncRoutes = [];
- 
- 
+
   const createRouter = () => new Router({
      scrollBehavior: ()=>({y:0}),
      routes:constantroutes

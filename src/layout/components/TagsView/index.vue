@@ -42,13 +42,15 @@ export default {
     return {
       visible: false,
       top: 0,
-      lef: 0,
+      left: 0,
       selectedTag: {},
       affixTags: []
     };
   },
   computed: {
     visitedViews() {
+        console.log("computed visited views")
+        console.log(this.$store.state.tagsView.visitedViews)
       return this.$store.state.tagsView.visitedViews;
     },
     menus() {
@@ -57,8 +59,10 @@ export default {
   },
   watch: {
     $route() {
+            console.log("start")
       this.addTags();
       this.moveToCurrentTag();
+      console.log("end")
     },
     visible(value) {
       if (value) {
@@ -67,6 +71,9 @@ export default {
         document.body.removeEventListener("click", this.closeMenu);
       }
     }
+  },mounted() {
+    this.initTags()
+    this.addTags()
   },
   methods: {
     isActive(tag) {
@@ -75,6 +82,7 @@ export default {
     filterAffixTags(menus) {
       let tags = [];
 
+
       for (let menu in menus) {
         if (menu.fullPath && isExternal(menu.fullPath)) {
           continue;
@@ -82,7 +90,7 @@ export default {
 
         if (menu.customData && menu.customData.affix) {
 
-          let result = router.resolve(menu.fullPath);
+          let result = this.$router.resolve(menu.fullPath);
 
           if (result.matched.length > 0) {
             var tag = this.convertRouteToTag(result.route,true);
@@ -103,7 +111,7 @@ export default {
           });
         }
       }
-
+  
       return tags;
     },
 
@@ -122,6 +130,12 @@ export default {
       if (tag) {
         this.$store.dispatch("tagsView/addView", tag);
       }
+      console.log('tag')
+
+      console.log(tag)
+      console.log('tag1')
+      console.log(this.menus)
+      console.log(this.visitedViews)
     },
     convertRouteToTag(route,affix =false) {
       if (route.meta && route.meta.noTag) {
@@ -134,8 +148,7 @@ export default {
 
       let title = "未命名标签";
       //菜单名称优先级高
-      let curMenu = this.$store.getters.menu.getByFullPath(route.fullPath);
-
+      let curMenu = this.$store.getters["menu/getByFullPath"](route.fullPath);
       if (curMenu) {
         title = curMenu.title;
       } else {

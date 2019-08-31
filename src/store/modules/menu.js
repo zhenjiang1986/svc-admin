@@ -1,10 +1,9 @@
-
-import store from '@/store'
+import store from "@/store";
 import path from "path";
 import { isExternal } from "@/utils/validate";
 import { isAuth } from "@/guard";
 import router from "@/router";
-import {Log} from '@/utils/log'
+import { Log } from "@/utils/log";
 
 // 使用 `mode: 'allOf'` 表示必须同时拥有。
 
@@ -38,18 +37,23 @@ const mutations = {
  * @param {string} [basePath="/"]
  * @returns
  */
-function getAuthMenus(menus, roles, permissions,parentMenu = null, basePath = "/") {
+function getAuthMenus(
+  menus,
+  roles,
+  permissions,
+  parentMenu = null,
+  basePath = "/"
+) {
   let authMenus = [];
 
   menus.forEach(menu => {
     if (isMenuAuth(menu, roles, permissions)) {
-   
       let authMenu = { ...menu };
 
-      authMenu.title = menu.displayName || menu.name
+      authMenu.title = menu.displayName || menu.name;
 
-      if(parentMenu){
-          authMenu.parentName = parentMenu.name
+      if (parentMenu) {
+        authMenu.parentName = parentMenu.name;
       }
 
       delete authMenu.items;
@@ -83,8 +87,8 @@ function getAuthMenus(menus, roles, permissions,parentMenu = null, basePath = "/
         if (authMenu.fullPath && !isExternal(authMenu.fullPath)) {
           let result = router.resolve(authMenu.fullPath);
 
-          var matched = result.resolved.matched
-          
+          var matched = result.resolved.matched;
+
           if (matched.length > 0) {
             let allAuth = true;
             for (let i = 0; i < matched.length; i++) {
@@ -101,7 +105,7 @@ function getAuthMenus(menus, roles, permissions,parentMenu = null, basePath = "/
             if (allAuth) {
               authMenus.push(authMenu);
             }
-          }//匹配不上路由,则不显示该菜单
+          } //匹配不上路由,则不显示该菜单
         } else {
           authMenus.push(authMenu);
         }
@@ -133,7 +137,11 @@ const actions = {
 };
 
 function findMenus(menus, predicate) {
-  menus.forEach(menu => {
+
+  for (let i = 0; i < menus.length; i++) {
+
+    let menu = menus[i];
+
     if (predicate(menu)) {
       return menu;
     }
@@ -144,7 +152,7 @@ function findMenus(menus, predicate) {
         return found;
       }
     }
-  });
+  }
 
   return null;
 }
@@ -152,45 +160,48 @@ function findMenus(menus, predicate) {
 const getters = {
   getByName: state => name => {
     var authMenus = state.authMenus;
-    return findMenus(authMenus, menu => {
-      return menu.name.toUpperCase() == name.toUpperCase();
-    });
+    return findMenus(
+      authMenus,
+      menu => menu.name.toUpperCase() == name.toUpperCase()
+    );
   },
   getByFullPath: state => fullPath => {
     var authMenus = state.authMenus;
-    return findMenus(authMenus, menu => {
-      return (
-        menu.fullPath && menu.fullPath.toUpperCase == fullPath.toUpperCase()
-      );
-    });
+    return findMenus(
+      authMenus,
+      menu =>
+        menu.fullPath && menu.fullPath.toUpperCase() == fullPath.toUpperCase()
+    );
   },
-  getBreadcrumbMenus: (state,getters) => fullPath => {
+  getBreadcrumbMenus: (state, getters) => fullPath => {
+    var curMenu = getters.getByFullPath(fullPath);
 
-    var curMenu = getters.getByFullPath(fullPath)
+    if (!curMenu) {
 
-    if(!curMenu){
-        return null
+      return null;
     }
 
-    let breadcrumb = [curMenu]
+    let breadcrumb = [curMenu];
 
+    var deep = 0;
 
-    var deep = 0
+    while (curMenu.parentName) {
+      var parentMenu = getters.getByName(curMenu.parentName);
 
-    while(curMenu.parentName){
+      if (parentMenu) {
+        breadcrumb.push(parentMenu);
 
-        var parentMenu = getters.getByName(curMenu.parentName)
+        curMenu = parentMenu;
+      }
 
-        breadcrumb.push(parentMenu)
-
-        curMenu = parentMenu
-
-        if(++deep > 10){
-            throw new Error('when find menu breadcrumb, the deep is bigger than 10')
-        }
+      if (++deep > 10) {
+        throw new Error(
+          "when find menu breadcrumb, the deep is bigger than 10"
+        );
+      }
     }
 
-    return breadcrumb.reverse()
+    return breadcrumb.reverse();
   }
 };
 

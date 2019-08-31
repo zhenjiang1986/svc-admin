@@ -18,7 +18,7 @@
             v-for="child in menu.items"
             :key="child.name"
             :is-nest="true"
-            :item="child"
+            :menu="child"
             class="nest-menu"
         />
     </div>
@@ -29,7 +29,7 @@ import path from 'path'
 import {isExternal} from '@/utils/validate'
 import Item from './Item'
 import AppLink from './Link'
-import FixOSBug from './'
+import FixOSBug from './FixiOSBug'
 
 
 export default {
@@ -39,7 +39,7 @@ export default {
     props: {
         menu: {
             type: Object,
-            required
+            required:true
         },
         isNest: {
             type: Boolean,
