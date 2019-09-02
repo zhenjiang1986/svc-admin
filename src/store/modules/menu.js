@@ -76,6 +76,7 @@ function getAuthMenus(
         );
 
         if (subAuthMenus.length > 0) {
+            authMenu.items = []
           subAuthMenus.forEach(s => {
             authMenu.items.push(s);
           });

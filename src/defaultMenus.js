@@ -14,31 +14,33 @@
       }
     },
     {
-      name: "Documentation",
-      icon: "",
-      url: "/documenttation"
-    },
+        name: "错误页面",
+        icon:'404',
+        url: '/error',
+        items: [
+            {
+                name: '401',
+                url:'401'
+            },
+            {
+                name: '404',
+                url:'404'
+            }
+        ]
+
+    }
+,
     {
-      name: "Guild",
-      icon: "",
-      url: "/guild"
-    },
-    {
-      name: "Permission",
-      icon: "",
-      url: "/permission",
-      items: [
-        {
-          name: "Directive Permission",
-          icon: "",
-          url: "/permission/directive"
-        }
-      ]
-    },
-    {
-      name: "Icons",
-      icon: "",
-      url: "/icons"
+        name: "小组件",
+        icon:"component",
+        url:"/components",
+        items:[
+            {
+                name: "回到顶部",
+                displayName:"回到顶部",
+                url: "back-to-top"
+            }
+        ]
     },
     {
       name: "External url",

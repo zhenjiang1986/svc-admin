@@ -50,10 +50,14 @@ const nullLogger = {
       return logger;
     }
     static set logger(value) {
-      if (!value.debug && value.info) {
-        // just to stay backwards compat. can remove in 2.0
-        value.debug = value.info;
-      }
+    //   if (!value.debug && value.info) {
+    //     // just to stay backwards compat. can remove in 2.0
+    //     value.debug = value.info;
+    //   }
+        //目前大部分浏览器不支持debug
+        if(value.info){
+            value.debug = value.info
+        }
   
       if (value.debug && value.info && value.warn && value.error) {
         logger = value;

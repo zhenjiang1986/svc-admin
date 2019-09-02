@@ -35,6 +35,7 @@
 import ScrollPane from "./ScrollPane";
 import path from "path";
 import { isExternal } from "@/utils/validate";
+import { Log } from "@/utils/log";
 
 export default {
   components: { ScrollPane },
@@ -49,8 +50,6 @@ export default {
   },
   computed: {
     visitedViews() {
-        console.log("computed visited views")
-        console.log(this.$store.state.tagsView.visitedViews)
       return this.$store.state.tagsView.visitedViews;
     },
     menus() {
@@ -59,10 +58,8 @@ export default {
   },
   watch: {
     $route() {
-            console.log("start")
       this.addTags();
       this.moveToCurrentTag();
-      console.log("end")
     },
     visible(value) {
       if (value) {
@@ -71,9 +68,10 @@ export default {
         document.body.removeEventListener("click", this.closeMenu);
       }
     }
-  },mounted() {
-    this.initTags()
-    this.addTags()
+  },
+  mounted() {
+    this.initTags();
+    this.addTags();
   },
   methods: {
     isActive(tag) {
@@ -82,18 +80,24 @@ export default {
     filterAffixTags(menus) {
       let tags = [];
 
+      for (let i = 0; i < menus.length; i++) {
+        let menu = menus[i];
 
-      for (let menu in menus) {
         if (menu.fullPath && isExternal(menu.fullPath)) {
           continue;
         }
 
         if (menu.customData && menu.customData.affix) {
+          Log.debug(menu.name);
 
           let result = this.$router.resolve(menu.fullPath);
 
-          if (result.matched.length > 0) {
-            var tag = this.convertRouteToTag(result.route,true);
+        Log.debug('result')
+
+          Log.debug(result)
+
+          if (result.resolved.matched.length > 0) {
+            var tag = this.convertRouteToTag(result.route, true);
 
             if (tag) {
               tags.push(tag);
@@ -111,12 +115,16 @@ export default {
           });
         }
       }
-  
+
       return tags;
     },
 
     initTags() {
+      Log.debug(this.menus);
+
       const affixTags = (this.affixTags = this.filterAffixTags(this.menus));
+
+      Log.debug(affixTags);
 
       affixTags.forEach(tag => {
         //包含noTag标签并且noTag为true时不添加tag
@@ -130,14 +138,8 @@ export default {
       if (tag) {
         this.$store.dispatch("tagsView/addView", tag);
       }
-      console.log('tag')
-
-      console.log(tag)
-      console.log('tag1')
-      console.log(this.menus)
-      console.log(this.visitedViews)
     },
-    convertRouteToTag(route,affix =false) {
+    convertRouteToTag(route, affix = false) {
       if (route.meta && route.meta.noTag) {
         return;
       }
@@ -173,7 +175,9 @@ export default {
       this.$nextTick(() => {
         tags.forEach(tag => {
           if (tag.to.path === this.$route.path) {
-            this.$refs.ScrollPane.moveToCurrentTag(tag);
+            
+        
+            this.$refs.scrollPane.moveToTarget(tag);
 
             var viewTag = this.convertRouteToTag(this.$route);
 
@@ -338,10 +342,10 @@ export default {
       vertical-align: 2px;
       border-radius: 50%;
       text-align: center;
-      transition: all .3s cubic-bezier(.645, .045, .355, 1);
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       transform-origin: 100% 50%;
       &:before {
-        transform: scale(.6);
+        transform: scale(0.6);
         display: inline-block;
         vertical-align: -3px;
       }

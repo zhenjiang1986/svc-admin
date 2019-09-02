@@ -36,8 +36,6 @@ export default {
 
         let menu = this.$store.getters["menu/getBreadcrumbMenus"](route.fullPath)
 
-        console.log(menu)
-
         if(menu){
             this.levelList =menu
         }
