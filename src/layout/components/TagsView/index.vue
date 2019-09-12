@@ -88,13 +88,8 @@ export default {
         }
 
         if (menu.customData && menu.customData.affix) {
-          Log.debug(menu.name);
 
           let result = this.$router.resolve(menu.fullPath);
-
-        Log.debug('result')
-
-          Log.debug(result)
 
           if (result.resolved.matched.length > 0) {
             var tag = this.convertRouteToTag(result.route, true);
@@ -103,7 +98,7 @@ export default {
               tags.push(tag);
             }
           } else {
-            console.error("该菜单不能被路由:" + path);
+            Log.error("该菜单不能被路由:" + path);
           }
         }
 
@@ -120,11 +115,8 @@ export default {
     },
 
     initTags() {
-      Log.debug(this.menus);
 
       const affixTags = (this.affixTags = this.filterAffixTags(this.menus));
-
-      Log.debug(affixTags);
 
       affixTags.forEach(tag => {
         //包含noTag标签并且noTag为true时不添加tag
@@ -175,8 +167,6 @@ export default {
       this.$nextTick(() => {
         tags.forEach(tag => {
           if (tag.to.path === this.$route.path) {
-            
-        
             this.$refs.scrollPane.moveToTarget(tag);
 
             var viewTag = this.convertRouteToTag(this.$route);

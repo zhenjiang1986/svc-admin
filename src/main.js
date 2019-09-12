@@ -11,8 +11,11 @@ import '@/styles/element-variables.scss'
 
 import '@/styles/index.scss'
 
+
 import store from './store'
 import router from './router'
+
+import * as filters from './filters' // global filters
 
 Log.level = Log.DEBUG
 
@@ -24,6 +27,10 @@ import './routeGuard' // route guard control
 Vue.use(Element,{
 size:Cookies.get('size') || 'medium'
 });
+
+Object.keys(filters).forEach(key => {
+    Vue.filter(key, filters[key])
+  })
 
 Vue.config.productionTip = false
 

@@ -65,6 +65,7 @@ const actions = {
         })
         .then(response => {
           commit("SET_TOKEN", response.access_token);
+          Log.debug(response.access_token)
           setToken(response.access_token);
           resolve();
         })

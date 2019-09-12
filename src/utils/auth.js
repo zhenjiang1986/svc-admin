@@ -1,13 +1,13 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = "Admin-Token"
+const TokenKey = "Svc-Admin-Token"
 
 export function getToken() {
     return Cookies.get(TokenKey)
   }
   
   export function setToken(token) {
-    return Cookies.set(TokenKey, token,"1d")
+    return Cookies.set(TokenKey, token,{ expires: 1})
   }
   
   export function removeToken() {

@@ -6,6 +6,16 @@ import componentsRouter from "./modules/components";
 Vue.use(Router);
 
 export const constantroutes = [
+    {
+        path: '/redirect',
+        component: Layout,
+        children: [
+          {
+            path: '/redirect/:path*',
+            component: () => import('@/views/redirect/index')
+          }
+        ]
+      },
   {
     path: "/login",
     component: () => import("@/views/login/index")
@@ -37,6 +47,18 @@ export const constantroutes = [
         meta: { title: "404", noCache: true }
       }
     ]
+  },
+  {
+      path: "/icon",
+      component:Layout,
+      children: [
+        {
+            path: 'index',
+            component: () => import('@/views/icons/index'),
+            name: 'Icons',
+            meta: { title: 'Icons', icon: 'icon', noCache: true }
+          } 
+      ]
   },
   {
     path: "/",

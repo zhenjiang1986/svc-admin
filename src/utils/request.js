@@ -16,6 +16,13 @@ service.interceptors.request.use(
       config.headers["Authorization"] = "Bearer " + getToken();
     }
 
+    //设置语言
+    config.headers["Accept-Language"] = "zh-Hans";
+    //设置缓存相关
+    config.headers["Pragma"] = "no-cache";
+    config.headers["Cache-Control"] = "no-cache";
+    config.headers["Expires"] = "Sat, 01 Jan 2000 00:00:00 GMT";
+
     return config;
   },
   error => {
@@ -34,8 +41,16 @@ service.interceptors.response.use(
   },
   error => {
     Log.error(error); // for debug
+
+    let message = error.message;
+
+    if (error.message.includes("timeout")) {
+      // 判断请求异常信息中是否含有超时timeout字符串
+      message = "请求超时!";
+    }
+
     Message({
-      message: error.message,
+      message: message,
       type: "error",
       duration: 5 * 1000
     });
@@ -43,4 +58,4 @@ service.interceptors.response.use(
   }
 );
 
-export default service
+export default service;

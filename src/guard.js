@@ -9,6 +9,13 @@ export function isAuth(guard, roles, permissions) {
     let guardRoles = guard.roles || [];
     let guardPermissions = guard.permissions || [];
 
+    if(!(guardRoles instanceof Array)){
+        throw new Error("the guard's roles must be array")
+    }
+    if(!(guardPermissions instanceof Array)){
+        throw new Error("the guard's permissions must be array")
+    }
+
     let mode = guard.mode || "oneOf";
 
     if (guardRoles.length <= 0 && guardPermissions.length <= 0) {
